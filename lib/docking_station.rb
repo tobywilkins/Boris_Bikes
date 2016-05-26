@@ -20,6 +20,12 @@ DEFAULT_CAPACITY = 20
     @bikes << bike
   end
 
+  def release_broken_bikes
+    sorted = @bikes.partition {|x| x.broken? == true}
+    @bikes = sorted[1]
+    sorted[0]
+  end
+
   private
 
   def dock_is_empty?
@@ -34,6 +40,10 @@ DEFAULT_CAPACITY = 20
     @bikes.select {|bike| bike.broken? == true}.count
   end
 
+  def list_broken_bikes
+  @bikes.select {|bike| bike.broken? == true}
+  end
+
   def working_bikes_count
     @bikes.select {|bike| bike.broken? == false}.count
   end
@@ -46,8 +56,6 @@ DEFAULT_CAPACITY = 20
     @bikes.find {|bike| bike.broken? == false }
   end
 end
-
-
 
 
 # [1] pry(main)> require './lib/docking_station'

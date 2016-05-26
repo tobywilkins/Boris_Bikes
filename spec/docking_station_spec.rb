@@ -15,7 +15,6 @@ describe DockingStation do
 
 	describe "#release_bike" do
 		it 'releases a bike' do
-			# allow(bike).to receive(:broken=)
 			subject.dock(bike)
 			expect(subject.release_bike).to eq bike
 		end
@@ -29,6 +28,23 @@ describe DockingStation do
 		expect{dock.release_bike}.to raise_error ("No bikes available")
 		end
 	end
+
+	describe '#release_broken_bikes' do
+		it 'returns array of broken bikes' do
+			dock = DockingStation.new
+			2.times do dock.dock(bike) end
+			8.times do dock.dock(double(:bike, :broken? => true, :broken= => true)) end
+		expect(dock.release_broken_bikes.count).to eq 8
+		end
+		it 'returns array of broken bikes' do
+			dock = DockingStation.new
+			4.times do dock.dock(bike) end
+			10.times do dock.dock(double(:bike, :broken? => true, :broken= => true)) end
+		expect(dock.release_broken_bikes.count).to eq 10
+		expect(dock.bikes.count).to eq 4
+		end
+	end
+
 
 	describe '#dock(bike)' do
 		it 'docks a bike' do
