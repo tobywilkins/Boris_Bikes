@@ -10,22 +10,40 @@ DEFAULT_CAPACITY = 20
   end
 
   def release_bike
-    raise "No bikes available" if empty?
-    @bikes.pop
+    raise "No bikes available" if (empty? || no_working_bike_available)
+    @bikes.delete(select_working_bike)
   end
 
-  def dock(bike)
+  def dock(bike, broken = false)
   	raise "Docking station is full" if full?
+    bike.broken = broken
     @bikes << bike
   end
 
   private
+
   def empty?
     @bikes.count <= 0
   end
 
   def full?
     @bikes.count >= @capacity
+  end
+
+  def broken_bikes_count
+    @bikes.select {|bike| bike.broken? == true}.count
+  end
+
+  def working_bikes_count
+    @bikes.select {|bike| bike.broken? == false}.count
+  end
+
+  def no_working_bike_available
+    working_bikes_count - broken_bikes_count <= 0
+  end
+
+  def select_working_bike
+    @bikes.find {|bike| bike.broken? == false }
   end
 end
 
