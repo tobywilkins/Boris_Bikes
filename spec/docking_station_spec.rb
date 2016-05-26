@@ -42,5 +42,15 @@ describe DockingStation do
 			expect{subject.dock(bike)}.to raise_error('Docking station is full')
 		end
 	end
+	describe '#initialize' do
+		it "should take the constant value if no capacity exists" do
+			dockA = DockingStation.new
+			expect(dockA.capacity).to eq 20
+		end
+		it 'should take custom capacity' do
+			dockA = DockingStation.new (10)
+			expect(dockA.capacity).to eq 10
+		end
+	end
 
 end
