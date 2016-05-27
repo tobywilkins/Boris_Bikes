@@ -27,4 +27,18 @@ let(:garage) {double(:garage)}
 		expect(subject.bikes).to eq []
 		end
 	end
+
+	describe '#collect_bikes_from_garage' do
+		it {should respond_to(:collect_bikes_from_garage).with (1)}
+		it "should pick up all the fixed bikes" do
+			allow(garage).to receive(:release_fixed_bikes).and_return(['bike1', 'bike2', 'bike3'])
+			subject.collect_bikes_from_garage(garage)
+			expect(subject.bikes).to eq(['bike1', 'bike2', 'bike3'])
+		end
+	end
+
+	describe '#deliver_bikes_to_dock' do
+		it {should respond_to(:deliver_bikes_to_dock).with (1)}
+	end
+
 end

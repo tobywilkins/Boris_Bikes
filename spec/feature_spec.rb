@@ -11,6 +11,8 @@ describe 'feature test' do
 		van.collect_bikes_from_dock(dock)
     garage = Garage.new
     van.deliver_bikes_to_garage(garage)
+    van.collect_bikes_from_garage(garage)
+    van.deliver_bikes_to_dock(dock)
 	end
 end
 

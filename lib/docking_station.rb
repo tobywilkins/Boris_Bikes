@@ -12,7 +12,7 @@ class DockingStation
     raise('No bikes available') if working_bike_count == 0
     release_working_bike
   end
-  def dock(bike, working=false)
+  def dock(bike, working=true)
     full? ? raise('Docking station full') : @bikes << bike
     bike.working = working
   end
@@ -21,6 +21,11 @@ def release_broken_bikes
 sorted = @bikes.partition {|bike| bike.working? == false}
 @bikes = sorted[1]
 sorted[0]
+end
+
+def receive_bikes(bikes)
+  raise "Docking station full" if ((@bikes.count + bikes.count) >= @capacity)
+  bikes.each {|bike| @bikes << bike }
 end
 
   private

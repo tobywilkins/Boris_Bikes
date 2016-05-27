@@ -43,6 +43,16 @@ describe DockingStation do
     end
   end
 
+  describe '#receive_bikes' do
+    it {should respond_to(:receive_bikes)}
+    it 'should receive bikes' do
+    expect(subject.receive_bikes([1,2,3,4,5,6,7])).to eq([1,2,3,4,5,6,7])
+    end
+    it 'should not receive too many bikes' do
+    expect{subject.receive_bikes([*1..30])}.to raise_error("Docking station full")
+    end
+  end
+
   describe "#dock" do
     it 'responds to dock method' do
       expect(subject).to respond_to :dock
