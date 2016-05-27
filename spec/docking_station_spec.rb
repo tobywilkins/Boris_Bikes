@@ -1,7 +1,8 @@
 require 'docking_station'
 
 describe DockingStation do
-  let(:bike) {double(:bike,:working => true,:working? => true)}
+  let(:bike) {double(:bike,:working= => true,:working? => true)}
+  let(:broken_bike) {double(:bike,:working= => false,:working? => false)}
 
   describe "initialize docking station at set capacity" do
     it 'accepts an argument when created' do
@@ -31,7 +32,15 @@ describe DockingStation do
       subject.dock(bike, "broken")
       expect{subject.release_bike}.to raise_error("No bikes available")
     end
+  end
 
+  describe '#release_broken_bikes' do
+    it {should respond_to(:release_broken_bikes)}
+    it 'should release broken bikes' do
+      5.times {subject.dock(bike)}
+      10.times {subject.dock(broken_bike)}
+      expect(subject.release_broken_bikes.count).to eq 10
+    end
   end
 
   describe "#dock" do

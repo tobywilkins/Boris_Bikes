@@ -12,10 +12,16 @@ class DockingStation
     raise('No bikes available') if working_bike_count == 0
     release_working_bike
   end
-  def dock(bike, broken=false)
+  def dock(bike, working=false)
     full? ? raise('Docking station full') : @bikes << bike
-    bike.working = (false) if broken == "broken"
+    bike.working = working
   end
+
+def release_broken_bikes
+sorted = @bikes.partition {|bike| bike.working? == false}
+@bikes = sorted[1]
+sorted[0]
+end
 
   private
 
@@ -35,3 +41,8 @@ class DockingStation
       @bikes.delete(@bikes.find {|bike| bike.working? == true})
     end
 end
+
+dock = DockingStation.new
+5.times {dock.dock(Bike.new,false)}
+5.times {dock.dock(Bike.new,true)}
+print dock.release_broken_bikes
